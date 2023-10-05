@@ -1,0 +1,51 @@
+program e6;
+
+var
+
+auto,autoult1,autoult2,autopri1,autopri2,i:integer;
+tiempo,tiempoult1,tiempoult2,tiempopri1,tiempopri2:real;
+
+
+begin
+	autoult1:= 0;
+	autoult2:= 0;
+	autopri1:= 0;
+	autopri2:= 0;
+	tiempoult1:= -1;
+	tiempoult2:= -1;
+	tiempopri1:= 32000;
+	tiempopri2:= 32000;
+	for i:= 1 to 6 do begin
+	
+		writeln('Ingrese el numero del auto');
+		readln(auto);
+		writeln('Ingrese su tiempo en pista');
+		readln(tiempo);
+		
+		if (tiempo > tiempoult1)then begin
+			tiempoult2:= tiempoult1;
+			autoult2:= autoult1;
+			tiempoult1:= tiempo;
+			autoult1:= auto;
+		end
+		
+		else if (tiempo > tiempoult2) then begin
+			tiempoult2:= tiempo;
+			autoult2:= auto;
+		end;
+		
+		if (tiempo < tiempopri1)then begin
+			tiempopri2:= tiempopri1;
+			autopri2:= autopri1;
+			tiempopri1:= tiempo;
+			autopri1:= auto;
+		end
+		
+		else if (tiempo < tiempopri2) then begin
+			tiempopri2:= tiempo;
+			autopri2:= auto;
+		end;
+	end;
+	writeln('los autos mas rapidos fueron ; ',autopri1,' y ',autopri2);
+	writeln('los autos mas lentos fueron ; ',autoult1,' y ',autoult2);
+end.
