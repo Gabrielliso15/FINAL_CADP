@@ -1,0 +1,29 @@
+program e5;
+
+var
+
+dist,distmin,distmax:real;
+cod,coddistmin,coddistmax,i:integer;
+
+begin
+	coddistmin:= 0;
+	coddistmax:= 0;
+	distmin:= 32000;
+	distmax:= -1;
+	for i:= 1 to 5 do begin
+		writeln ('Ingrese Codigo de ciudad : ');
+		readln(cod);
+		writeln ('Ingrese la distancia entre la ciudad :',cod,' y la ciudad de La Plata');
+		readln(dist);
+		if (dist > distmax)then begin
+			coddistmax:= cod;
+			distmax:= dist;
+		end;
+		 if (dist < distmin) then begin
+			coddistmin:= cod;
+			distmin:= dist;
+		end;	
+	end;
+	writeln ('la ciudad mas lejana a  La Plata fue : ',coddistmax);
+	writeln ('la ciudad mas cercana a  La Plata fue : ',coddistmin);
+end.
