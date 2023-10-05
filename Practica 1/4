@@ -1,0 +1,25 @@
+program oo;
+
+var
+num,max1,max2: integer;
+
+begin
+	max1:= -1;
+	max2:= -1;
+	writeln('Ingrese un numero');
+	readln(num);
+	while (num <> 0) do begin
+		if (num > max1)then begin
+			max2:= max1;
+			max1:= num;
+		end
+		else if (num > max2)then
+			max2:= num;
+	writeln('Ingrese un numero');
+	readln(num);		
+	end;
+	writeln('El numero mas grande es : ',max1);
+	writeln('El segundo numero mas grande es : ',max2);
+end.
+
+//2 1 4 3  8 10
