@@ -1,1 +1,34 @@
-Archivito basura
+{Se lee desde teclado una secuencia de números enteros. La lectura finaliza cuando
+se lee el número 0 (cero). Informar para cada número la suma de sus dígitos pares.}
+
+
+program zz;
+
+function suma (num:integer): integer;
+var
+aux:integer;
+sum:integer;
+begin
+	sum:= 0;
+	aux:= 0;
+	while (num <> 0) do begin
+		aux:= num MOD 10;
+		if (aux MOD 2 = 0) then
+			sum:= sum + aux;
+		num:= num DIV 10;
+	end;
+	suma:= sum;
+end;
+
+var
+num:integer;
+
+begin
+writeln ('Ingrese un numero');
+readln(num);
+	while (num <> 0) do begin
+		writeln ('la suma de los digitos del numero ingresado es :',suma(num));
+		writeln ('Ingrese un numero');
+		readln(num);
+	end;
+end.
