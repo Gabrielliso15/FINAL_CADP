@@ -1,0 +1,35 @@
+{
+Se lee desde teclado una secuencia de números enteros. La lectura finaliza cuando
+se lee el número 0 (cero). Informar para cada número la suma de sus dígitos pares.
+}
+
+program p2e6;
+
+function sumaPares(num: integer): integer;
+var
+	digActual, suma: integer;
+begin
+	suma:= 0;
+	while(num <> 0) do begin
+		digActual:= num MOD 10;
+		if ((digActual MOD 2) = 0) then
+			suma:= suma + digActual;
+		num:= num DIV 10;
+	end;
+	sumaPares:= suma;
+end;
+
+var
+	num: integer;
+BEGIN
+	write('Ingrese un numero (Finaliza en 0): ');
+	readln(num);
+	while (num <> 0) do begin
+		writeln('Suma de pares del numero ',num,': ',sumaPares(num));
+		write('Ingrese otro numero (Finaliza en 0): ');
+		readln(num);
+	end;
+	writeln(' ----------------- ');
+	writeln(' --- FIN DEL PROGRAMA --- ');
+	writeln(' ----------------- ');
+END.
