@@ -1,0 +1,30 @@
+{
+Se lee desde teclado la información de las 4 carreras de la Facultad de Informática.
+De cada carrera se lee su código, la cantidad de años y por cada año la cantidad de
+alumnos. Informar, para cada carrera, la cantidad promedio de alumnos por año.
+}
+
+program untitled;
+
+function promedio(suma, total: integer): real;
+begin
+	promedio:= suma / total;
+end;
+
+var
+	codigoCarrera, cantAnios, cantAlu, totalAlu, i, g: integer;
+BEGIN
+	for i:= 1 to 4 do begin
+		totalAlu:= 0;
+		write('Ingrese el codigo de la carrera: ');
+		readln(codigoCarrera);
+		write('Ingrese la cantidad de años de la carrera ',codigoCarrera,': ');
+		readln(cantAnios);
+		for g:= 1 to cantAnios do begin
+			write('Ingrese la cantidad de alumnos del año ',g,': ');
+			readln(cantAlu);
+			totalAlu:= totalAlu + cantAlu;
+		end;
+		writeln('La carrera ',codigoCarrera,' tiene un promedio de ',promedio(totalAlu, cantAnios):1:2,' por año');
+	end;
+END.
