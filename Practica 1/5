@@ -1,29 +1,44 @@
-program e5;
+{
+Realice un programa para administrar información de sitios turísticos. Para ello se
+leen desde teclado 1000 números que representan la distancia en kilómetros
+desde La Plata a una ciudad turística y el código de ciudad a la que pertenece dicha
+distancia. Informe en pantalla cuál es el código de ciudad más lejana y el código de
+ciudad más cercana.
+}
+
+program p1e5;
+
+procedure calcularMaximo(codCiudad: integer; distCiudad: real; var maxCod: integer; var maxDist: real);
+begin
+	if(distCiudad > maxDist) then begin
+		maxDist:= distCiudad;
+		maxCod:= codCiudad;
+	end
+end;
+
+procedure calcularMinimo(codCiudad: integer; distCiudad: real; var minCod: integer; var minDist: real);
+begin
+	if(distCiudad < minDist) then begin
+		minDist:= distCiudad;
+		minCod:= codCiudad;
+	end
+end;
 
 var
-
-dist,distmin,distmax:real;
-cod,coddistmin,coddistmax,i:integer;
-
-begin
-	coddistmin:= 0;
-	coddistmax:= 0;
-	distmin:= 32000;
-	distmax:= -1;
-	for i:= 1 to 5 do begin
-		writeln ('Ingrese Codigo de ciudad : ');
-		readln(cod);
-		writeln ('Ingrese la distancia entre la ciudad :',cod,' y la ciudad de La Plata');
-		readln(dist);
-		if (dist > distmax)then begin
-			coddistmax:= cod;
-			distmax:= dist;
-		end;
-		 if (dist < distmin) then begin
-			coddistmin:= cod;
-			distmin:= dist;
-		end;	
+	codigoCiudad, maxCodigo, minCodigo, i: integer;
+	distanciaCiudad, maxDistancia, minDistancia: real;
+BEGIN
+	maxDistancia:= -1;
+	minDistancia:= 32000;
+	for i:= 1 to 1000 do begin
+		write('Ingrese el codigo de una ciudad: ');
+		readln(codigoCiudad);
+		write('Ingrese la distancia de la ciudad ',codigoCiudad,': ');
+		readln(distanciaCiudad);
+		calcularMaximo(codigoCiudad, distanciaCiudad, maxCodigo, maxDistancia);
+		calcularMinimo(codigoCiudad, distanciaCiudad, minCodigo, minDistancia)
 	end;
-	writeln ('la ciudad mas lejana a  La Plata fue : ',coddistmax);
-	writeln ('la ciudad mas cercana a  La Plata fue : ',coddistmin);
-end.
+	writeln(' --- CIUDAD MAS LEJANA --- ');
+	writeln(' Codigo ',maxCodigo,': DISTANCIA ', maxDistancia:1:2,' km');
+	writeln(' --- FIN DEL PROGRAMA --- ');
+END.
