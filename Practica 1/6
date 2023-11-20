@@ -1,51 +1,66 @@
-program e6;
+{
+Realice un programa que lea desde teclado números de autos de carrera (valores
+enteros) y para cada auto el tiempo total de carrera (valor real). Informe en
+pantalla los autos que finalizaron en los dos primeros puestos y en los dos últimos
+puestos. En la carrera participaron 500 autos.
+}
+
+program p1e6;
+
+procedure calcularMinimo(codAuto: integer; tiempoAuto: real; var codMin1, codMin2: integer; var tiempoMin1, tiempoMin2: real);
+begin
+	if (tiempoAuto < tiempoMin1) then begin
+		codMin2:= codMin1;
+		tiempoMin2:= tiempoMin1;
+		codMin1:= codAuto;
+		tiempoMin1:= tiempoAuto;
+	end 
+	else if (tiempoAuto < tiempoMin2) then begin
+		codMin2:= codAuto;
+		tiempoMin2:= tiempoAuto;
+	end;
+end;
+
+procedure calcularMaximo(codAuto: integer; tiempoAuto: real; var codMax1, codMax2: integer; var tiempoMax1, tiempoMax2: real);
+begin
+	if(tiempoAuto > tiempoMax1) then begin
+		codMax2:= codMax1;
+		tiempoMax2:= tiempoMax1;
+		codMax1:= codAuto;
+		tiempoMax1:= tiempoAuto;
+	end
+	else if (tiempoAuto > tiempoMax2) then begin
+		codMax2:= codAuto;
+		tiempoMax2:= tiempoAuto;
+	end;
+end;
 
 var
-
-auto,autoult1,autoult2,autopri1,autopri2,i:integer;
-tiempo,tiempoult1,tiempoult2,tiempopri1,tiempopri2:real;
-
-
-begin
-	autoult1:= 0;
-	autoult2:= 0;
-	autopri1:= 0;
-	autopri2:= 0;
-	tiempoult1:= -1;
-	tiempoult2:= -1;
-	tiempopri1:= 32000;
-	tiempopri2:= 32000;
+	tMax1, tMax2, tMin1, tMin2, tAct: real;
+	cMax1, cMax2, cMin1, cMin2, cAct, i: integer;
+BEGIN
+	cMin1:= 0;
+	cMin2:= 0;
+	cMax1:= 0;
+	cMax2:= 0;
+	tMax1:= -1;
+	tMax2:= -1;
+	tMin1:= 30000;
+	tMin2:= 30000;
 	for i:= 1 to 6 do begin
-	
-		writeln('Ingrese el numero del auto');
-		readln(auto);
-		writeln('Ingrese su tiempo en pista');
-		readln(tiempo);
-		
-		if (tiempo > tiempoult1)then begin
-			tiempoult2:= tiempoult1;
-			autoult2:= autoult1;
-			tiempoult1:= tiempo;
-			autoult1:= auto;
-		end
-		
-		else if (tiempo > tiempoult2) then begin
-			tiempoult2:= tiempo;
-			autoult2:= auto;
-		end;
-		
-		if (tiempo < tiempopri1)then begin
-			tiempopri2:= tiempopri1;
-			autopri2:= autopri1;
-			tiempopri1:= tiempo;
-			autopri1:= auto;
-		end
-		
-		else if (tiempo < tiempopri2) then begin
-			tiempopri2:= tiempo;
-			autopri2:= auto;
-		end;
+		write('Ingrese el codigo del auto: ');
+		readln(cAct);
+		write('Ingrese el tiempo del auto ',cAct,': ');
+		readln(tAct);
+		calcularMinimo(cAct, tAct, cMin1, cMin2, tMin1, tMin2);
+		calcularMaximo(cAct, tAct, cMax1, cMax2, tMax1, tMax2);
 	end;
-	writeln('los autos mas rapidos fueron ; ',autopri1,' y ',autopri2);
-	writeln('los autos mas lentos fueron ; ',autoult1,' y ',autoult2);
-end.
+	writeln(' --- Primeros lugares --- ');
+	writeln('1 - ',cMin1);
+	writeln('2 - ',cMin2);
+	writeln(' --- Ultimos lugares --- ');
+	writeln((i-1),' - ',cMax2);
+	writeln(i,' - ',cMax1);
+	writeln(' --------------- ');
+	writeln(' --- FIN DEL PROGRAMA --- ');
+END.
