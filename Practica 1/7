@@ -1,0 +1,39 @@
+{
+Se lee desde teclado la información de los pacientes de una clínica. De cada
+paciente se lee DNI y edad. La lectura finaliza cuando llega el paciente con DNI 0
+(cero). Informar la edad promedio de los pacientes.
+}
+
+program p1e7;
+
+function promedio(suma, total: integer): real;
+begin
+	promedio:= suma / total;
+end;
+
+var
+	DNI, edad, edadTotal, cantPacientes: integer;
+BEGIN
+	cantPacientes:= 0;
+	edadTotal:= 0;
+	write('Ingrese el DNI del paciente (finaliza en 0): ');
+	readln(DNI);
+	if(DNI <> 0) then begin
+		write('Ingrese la edad del paciente con DNI ',DNI,': ');
+		readln(edad);
+	end;
+	while (DNI <> 0) do begin
+		cantPacientes:= cantPacientes + 1;
+		edadTotal:= edadTotal + edad;
+		write('Ingrese otro DNI (finaliza en 0): ');
+		readln(DNI);
+		if(DNI <> 0) then begin
+			write('Ingrese la edad del paciente con DNI ',DNI,': ');
+			readln(edad);
+		end;
+	end;
+	writeln(' ---------------- ');
+	writeln(' Promedio de edades de los ',cantPacientes,' pacientes: ', promedio(edadTotal, cantPacientes):1:2);
+	writeln(' ---------------- ');
+	writeln(' --- FIN DEL PROGRAMA --- ');
+END.
