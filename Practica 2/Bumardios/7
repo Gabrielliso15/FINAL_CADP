@@ -1,0 +1,28 @@
+{Se lee desde teclado la información de las 4 carreras de la Facultad de Informática.
+De cada carrera se lee su código, la cantidad de años y por cada año la cantidad de
+alumnos. Informar, para cada carrera, la cantidad promedio de alumnos por año.}
+
+program xzx;
+
+func
+
+var
+cod,cantanios,cantalumnos,i,j,totalalumnos:integer;
+promedio: real;
+begin
+	for j:= 1 to 4 do begin
+		totalalumnos:= 0;
+		promedio:= 0;
+		writeln('Ingrese el codigo de carrera');
+		readln(cod);
+		writeln('Ingrese la cantidad de años');
+		readln(cantanios);
+		for i:= 1 to cantanios do begin
+			writeln('Ingrese la cantidad de alumnos para el año : ',i, ' de la carrera : ',cod);
+			readln(cantalumnos);
+			totalalumnos:= totalalumnos + cantalumnos;
+		end;
+		promedio:= totalalumnos / cantanios;
+		writeln('La carrera : ',cod, ' termino con un promedio de alumnos de :',promedio);	
+	end;
+end.
