@@ -1,0 +1,50 @@
+{
+Realizar un programa que lea secuencia de números enteros. La lectura finaliza cuando llega
+el número 123456, el cual debe procesarse. Informar en pantalla para cada número la suma
+de sus dígitos pares y la suma de sus dígitos impares. Modularizar la solución.
+}
+
+program p3e6;
+
+function sumaPares(num: integer): integer;
+var
+	aux, total: integer;
+begin
+	total:= 0;
+	while (num <> 0) do begin
+		aux:= num MOD 10;
+		if(aux MOD 2 = 0) then
+			total:= total + aux;	
+		num:= num DIV 10;
+	end;
+	sumaPares:= total;
+end;
+
+function sumaImpares(num: integer): integer;
+var
+	aux, total: integer;
+begin
+	total:= 0;
+	while(num <> 0) do begin
+		aux:= num MOD 10;
+		if(aux MOD 2 <> 0) then
+			total:= total + aux;
+		num:= num DIV 10;
+	end;
+	sumaImpares:= total;
+end;
+
+var
+	num: integer;
+BEGIN
+	repeat
+		write('Ingrese un numero (finaliza en 1234): ');
+		readln(num);
+		writeln(' --------------- ');
+		writeln('Suma de los digitos pares del numero ',num,': ',sumaPares(num));
+		writeln(' --------------- ');
+		writeln('Suma de los digitos impares del numero ',num,': ',sumaImpares(num));
+	until(num = 1234);
+	writeln(' --------------- ');
+	writeln(' --- FIN DEL PROGRAMA --- ');
+END.
