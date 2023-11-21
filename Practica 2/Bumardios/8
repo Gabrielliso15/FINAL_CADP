@@ -1,0 +1,57 @@
+{Se lee desde teclado información de personas. De cada persona se lee DNI,
+apellido y nombre, ciudad natal y fecha de nacimiento. La lectura finaliza cuando
+llega una persona con DNI -1 o cuando se han leído 500 personas. Informar
+apellido y nombre de aquellas personas nacidas en “La Plata” y cuyos DNI poseen
+menos dígitos impares que pares.}
+
+
+program xxz;
+
+function Cumple (DNI:integer;ciudad: string): boolean;
+var
+auxpares,auximpares,aux: integer;
+
+begin
+	aux:= 0;
+	auxpares:= 0;
+	auximpares:= 0;
+	while (DNI <> 0) do begin
+		aux:= DNI MOD 10;
+		DNI:= DNI DIV 10;
+		if ((aux MOD 2) = 0) then begin
+			auxpares:= auxpares +1;
+		end
+		else
+			auximpares:= auximpares +1;
+	end;
+	if ((auxpares > auximpares) and (ciudad = 'La Plata'))then begin
+		Cumple:= true;
+	end
+	else
+		Cumple:= false;
+end;
+
+var
+DNI,contador: integer;
+apellido,nombre,ciudad,fechanacimiento: string;
+
+begin
+	contador:= 0;
+	writeln('Ingrese el DNI de la persona');
+	readln(DNI);
+	while ((DNI <> -1) and (contador < 5)) do begin	
+		contador:= contador +1;
+		writeln('Ingrese su nombrea');
+		readln(nombre);
+		writeln('Ingrese su apellido');
+		readln(apellido);
+		writeln('Ingrese su ciudad natal');
+		readln(ciudad);
+		writeln('Ingrese la fecha de nacimiento');
+		readln(fechanacimiento);
+		if Cumple(DNI,ciudad) then
+			writeln (nombre,' ',apellido, ' Nacio en La Plata y posee un dni con mayoria de digitos PARES | Por lo tanto sera enviado a la colimba');
+		writeln('Ingrese el DNI de la persona');
+		readln(DNI);
+	end;
+end.
