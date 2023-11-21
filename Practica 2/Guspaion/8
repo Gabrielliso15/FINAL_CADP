@@ -1,0 +1,55 @@
+{
+Se lee desde teclado información de personas. De cada persona se lee DNI,
+apellido y nombre, ciudad natal y fecha de nacimiento. La lectura finaliza cuando
+llega una persona con DNI -1 o cuando se han leído 500 personas. Informar
+apellido y nombre de aquellas personas nacidas en “La Plata” y cuyos DNI poseen
+menos dígitos impares que pares.
+}
+
+program p2e8;
+
+function masPares(num: integer): boolean;
+var
+	dig, pares, impares: integer;
+begin
+	pares:= 0;
+	impares:= 0;
+	while(num <> 0) do begin
+		dig:= num MOD 10;
+		if(dig MOD 2 = 0) then
+			pares:= pares + 1
+		else
+			impares:= impares + 1;
+		num:= num DIV 10;
+	end;
+	masPares:= (pares > impares);
+end;
+
+var
+	DNI, anioNac, cantPers: integer;
+	nomApe, ciudad: string;
+BEGIN
+	cantPers:= 0;
+	write('Ingrese un DNI (finaliza en -1): ');
+	readln(DNI);
+	while((DNI <> -1) and (cantPers <= 500)) do begin
+		write('Ingrese el apellido y nombre de la persona con DNI ',DNI,': ');
+		readln(nomApe);
+		write('Ingrese la ciudad natal de ',nomApe,': ');
+		readln(ciudad);
+		write('Ingrese el anio de nacimiento de ',nomApe,': ');
+		readln(anioNac);
+		writeln(' ------------- ');
+		if(masPares(DNI) and (ciudad = 'La Plata')) then
+			writeln(' --> ',nomApe,' cumple los requisitos')
+		else
+			writeln(' --> ',nomApe,' no cumple los requisitos');
+		writeln(' ------------- ');
+		cantPers:= cantPers + 1;
+		if(cantPers <= 500) then begin
+			write('Ingrese otro DNI (finaliza en -1): ');
+			readln(DNI);
+		end;
+	end;
+	writeln(' --- FIN DEL PROGRAMA ---');
+END.
