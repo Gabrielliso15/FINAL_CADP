@@ -1,0 +1,49 @@
+{Realizar un programa que lea una secuencia de numeros enteros.La lectura finaliza cuando llega el numero 123456,el cual debe procesarse. Informar en pantalla para cada numero la suma de sus digitos pares y sus digitos impares. Modularizar la solucion.
+}
+
+
+program zz;
+
+Function SepararPares (num:integer): integer;
+var
+suma,aux: integer;
+begin
+suma:= 0;
+while (num <> 0) do begin
+  aux:= num MOD 10;
+  if (aux MOD 2 = 0)then
+    suma:= suma + aux;
+  num:= num DIV 10;
+end;
+SepararPares:= suma;
+end;
+
+Function SepararImpares (num:integer): integer;
+var
+suma,aux: integer;
+begin
+suma:= 0;
+while (num <> 0) do begin
+  aux:= num MOD 10;
+  if (aux MOD 2 <> 0)then
+    suma:= suma + aux;
+  num:= num DIV 10;
+end;
+SepararImpares:= suma;
+end;
+
+
+var
+secuencia: integer;
+begin
+repeat
+  writeln('Ingrese la secuencia de numeros');
+  readln(secuencia);
+  writeln('La suma de digitos pares fue : ' ,SepararPares(secuencia));
+    writeln('La suma de digitos impares fue : ' ,SepararImpares(secuencia));
+
+until (secuencia = 123);
+
+
+end.
+
