@@ -1,0 +1,85 @@
+{
+Una veterinaria desea procesar la información de los animales que atendió en el año 2014.
+Para ello, debe leer la información de todas las atenciones realizadas durante ese período.
+De cada atención se lee: mes (1..12), especie (1: perro, 2: gato, 3: conejo, 4: tortuga, 5:
+pájaro, 6: otros), raza y diagnóstico. La información se lee ordenada por mes y para cada
+mes por especie. La lectura de información finaliza cuando se lee el mes -1. Se pide:
+a. Informar para cada mes la especie más atendida.
+b. Informar los meses donde la cantidad de tortugas superan a la cantidad de
+conejos.
+}
+
+program p4e8;
+type
+	string30 = string[30];
+	rangoMes = -1..12;
+	rangoEspecie = 0..6;
+	atencion = record
+		mes: rangoMes;
+		especie: rangoEspecie;
+		raza: string30;
+		diagnostico: string30;
+	end;
+
+procedure leerAtencion(var A: atencion);
+begin
+	write('Ingrese el mes de la atencion(finaliza en -1): ');
+	readln(A.mes);
+	if (A.mes <> -1) then begin
+		write('Ingrese la especie en cuestion: ');
+		readln(A.especie);
+		write('Ingrese la raza: ');
+		readln(A.raza);
+		write('Ingrese el diagnostico: ');
+		readln(A.diagnostico);
+	end;
+end;
+
+procedure calcularMaximo(var maxCant: integer; var maxEspecie: rangoEspecie; cantEspecie: integer; numEspecie: rangoEspecie);
+begin
+	if(maxCant < cantEspecie) then begin
+		maxCant:= cantEspecie;
+		maxEspecie:= numEspecie;
+	end;
+end;
+
+var
+	a: atencion;
+	especieMax, especieAct: rangoEspecie;
+	cantMax, cantAct, mesActual, cantTortugas, cantConejos: integer;
+BEGIN
+	leerAtencion(a);
+	while(a.mes <> -1) do begin
+		cantMax:= -1;
+		especieMax:= 0;
+		cantTortugas:= 0;
+		cantConejos:= 0;
+		mesActual:= a.mes;
+		writeln;
+		while(a.mes = mesActual) do begin
+			especieAct:= a.especie;
+			cantAct:= 0;
+			while((a.especie = especieAct) and (a.mes <> -1)) do begin
+				if(a.especie = 3) then
+					cantConejos:= cantConejos + 1
+				else if(a.especie = 4) then
+					cantTortugas:= cantTortugas + 1;
+				cantAct:= cantAct + 1;
+				writeln(' ----------------- ');
+				leerAtencion(a);
+				writeln(' ----------------- ');
+			end;
+			calcularMaximo(cantMax, especieMax, cantAct, especieAct);
+		end;
+		writeln(' ----------------- ');
+		writeln('Mes ',mesActual,': ');
+		writeln('Especie mas atendida en el mes ',mesActual,': ',especieMax);
+		writeln(' ----------------- ');
+		if(cantConejos < cantTortugas) then
+			writeln('El mes ',mesActual,' tuvo mas tortugardas')
+		else
+			writeln('El mes ',mesActual,' tuvo mas conejardos');
+	end;
+	writeln(' ----------------- ');
+	writeln(' --- FIN DEL PROGRAMA ---');
+END.
