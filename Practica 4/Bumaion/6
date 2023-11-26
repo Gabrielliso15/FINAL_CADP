@@ -1,0 +1,48 @@
+{La Secretaría de Turismo de la Nación quiere obtener información de los diferentes sitios
+turísticos que existen en la Argentina. Para eso se lee una secuencia de sitios turísticos
+hasta un sitio con nombre ‘ZZZ’. De cada sitio se conoce: nombre, provincia y cantidad de
+visitantes. Se sabe que la información que se lee viene ordenada por nombre de sitio y
+cada sitio puede aparecer más de una vez. Presentar un informe como el siguiente:}
+
+
+program aa;
+type
+	
+	sitio = record
+		nombre: string[30];
+		provincia: string[30];
+		cantVisitantes: integer;
+	end;
+	
+
+	procedure Leer (var s:sitio);
+	begin
+		writeln('ingrese el nombre del Sitio');
+		readln(s.nombre);
+		if (s.nombre <> 'ZZZ') then begin
+			writeln('ingrese el nombre del provincia');
+			readln(s.provincia);
+			writeln('ingrese el nombre del cantVisitantes');
+			readln(s.cantVisitantes);
+		end;
+	end;
+
+var
+	s:sitio;
+	contadorVisitantes,cont: integer;
+
+begin
+contadorVisitantes := 0;
+cont:= 0;
+Leer(s);
+while (s.nombre <> 'ZZZ') do begin
+	cont:= cont +1;
+	writeln('Nombre del sitio ',cont,': ',s.nombre);
+	writeln('Cantidad de visitantes : ',s.cantVisitantes);
+	contadorVisitantes:= contadorVisitantes + s.cantVisitantes;
+	Leer(s);
+end;
+writeln('Total GENERAL DE VISITANTES : ',contadorVisitantes);
+
+
+end.
