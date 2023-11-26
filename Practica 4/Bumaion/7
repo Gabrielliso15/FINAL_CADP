@@ -1,0 +1,57 @@
+{Ídem al ejercicio anterior, pero sabiendo que la información viene ahora ordenada por
+provincia y dentro de provincia por sitio. La lectura finaliza cuando se lee un sitio con
+nombre ‘ZZZ’. Realizar un programa que genere un listado que muestre la información de
+la siguiente manera:}
+
+
+program aa;
+type
+	
+	sitio = record
+		nombre: string[30];
+		provincia: string[30];
+		cantVisitantes: integer;
+	end;
+	
+
+	procedure Leer (var s:sitio);
+	begin
+		writeln('ingrese el nombre del Sitio');
+		readln(s.nombre);
+		if (s.nombre <> 'ZZZ') then begin
+			writeln('ingrese el nombre del provincia');
+			readln(s.provincia);
+			writeln('ingrese el nombre del cantVisitantes');
+			readln(s.cantVisitantes);
+		end;
+	end;
+
+var
+	s:sitio;
+	contadorVisitantes,cont: integer;
+	provinciaActual: string;
+
+begin
+cont:= 0;
+Leer(s);
+while (s.nombre <> 'ZZZ') do begin
+	provinciaActual:= s.provincia;
+	cont:= cont +1;
+	contadorVisitantes := 0;
+	while (s.provincia = provinciaActual) do begin
+		writeln('Provincia ',cont,': ',provinciaActual);
+		writeln('Sitio ',cont,': ',s.nombre);
+		writeln('Cantidad de visitantes : ',s.cantVisitantes);
+		writeln('');
+		writeln('');
+		contadorVisitantes:= contadorVisitantes + s.cantVisitantes;
+		Leer(s);
+	end;
+	writeln('');
+	writeln('-------------------------------------------------------------------------------------');
+	writeln('VISITANTES TOTALES DE LA PROVINCIA  ',provinciaActual,' : ',contadorVisitantes);
+	writeln('-------------------------------------------------------------------------------------');
+	writeln('');
+end;
+
+end.
