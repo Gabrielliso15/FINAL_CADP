@@ -1,0 +1,83 @@
+{Una veterinaria desea procesar la información de los animales que atendió en el año 2014.
+Para ello, debe leer la información de todas las atenciones realizadas durante ese período.
+De cada atención se lee: mes (1..12), especie (1: perro, 2: gato, 3: conejo, 4: tortuga, 5:
+pájaro, 6: otros), raza y diagnóstico. La información se lee ordenada por mes y para cada
+mes por especie. La lectura de información finaliza cuando se lee el mes -1. Se pide:
+a. Informar para cada mes la especie más atendida.
+b. Informar los meses donde la cantidad de tortugas superan a la cantidad de
+conejos.}
+
+
+program aa;
+type
+	
+	RangoEspecie = 1..6;
+	RangoMes= -1..12;
+	
+	atencion = record
+		mes: RangoMes ;
+		especie: RangoEspecie;
+		raza: string;
+		diagnostico: string;
+	end;
+	
+	procedure  Leer (var a:atencion);
+	begin
+		writeln('Ingrese El mes');
+		readln(a.mes);
+		if (a.mes <> -1) then begin	
+			writeln('Ingrese la especie');
+			readln(a.especie);
+			writeln('Ingrese la raza');
+			readln(a.raza);
+			writeln('Ingrese el diagnostico');
+			readln(a.diagnostico);
+		end;
+	
+	end;
+	
+
+var
+	a: atencion;
+	contadorEspecie: integer;
+	numEspMax: integer;
+	max: integer;
+	especieActual: integer;
+	mesActual : integer;
+	contadorConejos: integer;
+	contadorTortugas: integer;
+begin
+	Leer(a);
+	while (a.mes <> -1) do begin
+		max:= -1;
+		numEspMax:= 0;
+		mesActual:= a.mes;
+		while ((a.mes = mesActual) and (a.mes <> -1)) do begin
+			ContadorEspecie:= 0;
+			contadorConejos:= 0;
+			contadorTortugas:= 0;
+			especieActual:= a.especie;
+			while ((a.especie = especieActual ) and (a.mes <> -1)) do begin
+				if (a.especie = 3) then 
+					contadorConejos:= contadorConejos +1
+				else if (a.especie = 4) then 
+					contadorTortugas:= contadorTortugas +1;
+				ContadorEspecie:= ContadorEspecie +1;
+				Leer(a);
+				writeln('  ');
+			end;
+			if (max < ContadorEspecie) then begin
+				max:= ContadorEspecie;
+				numEspMax:= especieActual;	
+			end;		
+		end;
+		writeln('Mes ',mesActual,': ');
+		writeln ('Para el mes ',mesActual,' La especie mas atendida fue : ',numEspMax);
+		if (contadorTortugas > contadorConejos) then 
+			writeln ('Para el mes ',mesActual,' Las tortugas superaron a los conejos hijos de puta')
+		else
+			writeln('El mes ',mesActual,' tuvo mas conejardos');
+	end;
+	writeln(' ----------------- ');
+	writeln(' --- FIN ---');
+end.
