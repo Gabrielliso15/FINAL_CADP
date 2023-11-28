@@ -1,0 +1,116 @@
+{Un periódico necesita procesar las noticias a publicar en el día. Para ello se debe realizar un programa
+que lea desde teclado las noticias correspondientes. De cada noticia se lee: título, texto, código de
+sección (1: Policiales; 2: Economía; 3: Espectáculos; 4: Deportes; 5: Política), nombre del autor y si es
+una noticia de carácter “Urgente”. La lectura finaliza cuando se lee el código de sección 0 (cero) y la
+información se ingresa ordenada por nombre del autor. Se pide calcular e informar:
+a. El nombre y apellido de los dos autores con mayor cantidad de noticias.
+b. Informar la cantidad de noticias para código de sección.
+Nota: para calcular e informar todos los incisos, el vector debe recorrerse una sola vez.}
+ 
+program xx;
+const
+	dimF = 10;
+type
+	
+	RangoCod = 0..5;
+	
+	Noticia = record
+		titulo: string;
+		texto : string;
+		cod: RangoCod;
+		nombreAutor: string;
+	end;
+	
+	vnoticias = array [1..10] of Noticia;
+	vcontador = array [1..5] of integer;
+	
+	
+	procedure LeerNoticia(var n:noticia);
+	begin
+		writeln('Ingrese el Codigo seccion | 1.-Policial | 2.-Econiomia| 3.-Espectaculo| 4.-Deportes |5.-Politica |  ');
+		readln(n.cod);
+		if (n.cod <> 0) then	begin
+			writeln('Ingrese el Titulo de la noticia');
+			readln(n.titulo);
+			writeln('Ingrese el Texto');
+			readln(n.texto);
+			writeln('Ingrese el nombre del autor');
+			readln(n.nombreAutor);
+		end;
+	end;
+	
+	procedure InicializarVectorContador (var vc:vcontador);
+	var
+		i: integer;
+	begin
+		for i := 1 to 5 do begin
+			vc[i]:= 0;
+		end;
+	end;
+	
+	Procedure ArmarVector (var vn:vnoticias; var vc:vcontador;var dimL: integer);
+	var
+		n: noticia;
+	begin
+		LeerNoticia(n);
+		while ((n.cod <> 0) and (dimF >= dimL)) do begin
+			dimL:= dimL +1;
+			vn[dimL]:= n;
+			vc[n.cod] := vc[n.cod] +1;
+			LeerNoticia(n);
+		end;
+	end;
+	
+	procedure InformarCod (vc:vcontador);
+	var
+		i: integer;
+	begin
+		for i:= 1 to 5 do begin
+			writeln('El codigo :  ',i,' junto una cantidad de  ',vc[i],' noticias');;
+		end;
+	end;
+	
+	procedure InformarAutores(vn: vnoticias;dimL: integer);
+	var
+		i: integer;
+		nombremax,nombremax2,autoractual: string;
+		max1,max2,cantnoticias: integer;
+	begin
+		max1:= -1;
+		max2:= -1;
+		autoractual:= vn[1].nombreAutor;
+		cantnoticias:= 0;
+		for i:= 1 to dimL do begin
+			if (vn[i].nombreAutor = autoractual) then 
+				cantnoticias:= cantnoticias +1
+			else begin
+				if (cantnoticias > max1) then begin
+					nombremax:= autoractual;
+					max1:= cantnoticias;
+					max2:= max1;
+				end
+				else if (cantnoticias > max2) then begin
+					max2:= cantnoticias;
+					nombremax2:= autoractual;
+				end;
+				autoractual:= vn[i].nombreAutor;
+				cantnoticias:= 1;				
+		end;
+	end;
+	writeln('El autor con mas noticias fue : ',nombremax);
+	writeln('El segundo autor con mas noticias fue : ',nombremax2);
+	end;
+	
+	
+		
+var
+	vn: vnoticias;
+	vc: vcontador;
+	dimL: integer;
+begin
+	dimL:= 0;
+	InicializarVectorContador(vc);
+	ArmarVector(vn,vc,dimL);
+	InformarCod(vc);
+	
+end.
