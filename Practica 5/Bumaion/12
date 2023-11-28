@@ -1,0 +1,138 @@
+{Se dispone de la información de los 32 equipos que participan en un torneo de fútbol. De cada equipo
+se tiene: código de equipo (1..32) y nombre del equipo.
+Realice un programa que:
+a) Lea y almacene los resultados de partidos del torneo (a lo sumo 64 partidos). De cada partido
+se lee: fecha de partido (dia, mes, año) , código de equipo 1 (1..32), código de equipo 2
+(1..32), cantidad goles equipo 1, cantidad goles equipo 2, cantidad de espectadores y monto
+recaudado. La lectura finaliza cuando se ingrese la cantidad de espectadores 0.
+Una vez leída y almacenada la información del inciso a) se pide calcular e informar:
+i. El nombre del equipo que más puntaje obtuvo (3 puntos equipo ganador, 0 punto
+equipo perdedor, 1 punto para cada equipo en caso de empate). Considere que
+habrá solo un ganador.
+ii. La recaudación total de los partidos jugados en el mes julio de 2014.
+Nota: la estructura generada en a) debe recorrerse una sola vez.}
+
+
+program zz;
+
+type
+	
+	RangoCod = 1..32;
+	
+	equipo = record
+		nombre : string;
+		cod: RangoCod;
+	end;
+		
+	fecha = record
+		dia: integer;
+		mes: integer;
+		ano: integer;
+	end;
+	
+	partido = record
+		fechaPartido: fecha;
+		codEquipo1: RangoCod;
+		codEquipo2: RangoCod;
+		goles1: integer;
+		goles2:integer;
+		cantEspectadores: integer;
+		MontoRecaudado: real;
+	end;
+	
+	vpartidos = array [1..64] of partido;
+	vpuntos = array [1..32] of integer;
+	
+	procedure InicializarVectorContador (var vptos:vpuntos);
+	var
+		i: integer;
+	begin
+		for i := 1 to 32 do begin
+			vptos[i]:= 0;
+		end;
+	end;
+	
+	
+	procedure Leer (var p: partido);
+	begin
+		writeln ('Ingrese la Cantidad de espectadores ');
+		readln (p.cantEspectadores);
+		if (p.cantEspectadores > 0) then begin
+			writeln ('Ingrese la fecha del partido');
+			writeln ('Dia : ');
+			readln (p.fechaPartido.dia);
+			writeln ('Mes : ');
+			readln (p.fechaPartido.mes);
+			writeln ('Año : ');
+			readln (p.fechaPartido.ano);
+			writeln ('Ingrese El codigo del equipo 1 ');
+			readln (p.codEquipo1);
+			writeln ('Ingrese El codigo del equipo 2 ');
+			readln (p.codEquipo2);
+			writeln ('Ingrese la cantidad de goles del equipo 1 ');
+			readln (p.goles1);
+			writeln ('Ingrese la cantidad de goles del equipo 2 ');
+			readln (p.goles2);
+			writeln ('Ingrese el monto recaudado para el partido ');
+			readln (p.MontoRecaudado);
+		end;
+	end;
+	
+	procedure ArmarVector (var vp: vpartidos;var vptos: vpuntos;var dimL: integer);	
+	var
+		p: partido;
+	begin
+		Leer(p);
+		while (p.cantEspectadores > 0) and (dimL <= 64) do begin
+			dimL:= dimL +1;
+			vp[dimL] := p;
+			if (p.goles1 >  p.goles2) then 
+				vptos[p.codEquipo1] := vptos[p.codEquipo1] + 3
+			else if (p.goles2 >  p.goles1) then 
+				vptos[p.codEquipo2] := vptos[p.codEquipo2] + 3
+			else begin
+				vptos[p.codEquipo1] := vptos[p.codEquipo1] + 1;
+				vptos[p.codEquipo2] := vptos[p.codEquipo2] + 1;
+			end;
+			Leer(p);
+		end;	
+	end;
+	
+	procedure Calcular (vp: vpartidos;vptos:vpuntos;dimL : integer;max: real;var monto: real;var maxnombre: string);
+	var
+		i: integer;
+		j: RangoCod;
+	begin
+		for i:= 1 to dimL do begin
+			if((vp[i].fechaPartido.ano = 2014) and (vp[i].fechaPartido.mes = 7)) then
+				monto:= monto + vp[i].MontoRecaudado;
+		end;
+		for j:= 1 to 32 do begin
+			if(max < vptos[j]) then begin
+				max:= vptos[j];
+				{maxnombre:= vequipos[j].nombre;}{SE DISPONE EL VECTOR DE EQUIPOS}
+			end;
+		end;
+	end;
+	
+	
+	
+	
+var
+	dimL,max: integer;
+	vp: vpartidos;
+	vptos: vpuntos;
+	monto: real;
+	maxnombre: string;
+begin
+	monto:=0;
+	max:= -1;
+	dimL:= 0;
+	InicializarVectorContador(vptos);
+	ArmarVector(vp,vptos,dimL);
+	Calcular(vp,vptos,dimL,max,monto,maxnombre);
+	writeln(' ');
+	writeln('El equipo ',maxnombre,' tuvo mas puntos');
+	writeln(' ');
+	writeln('La recaudacion de julio del 2014 fue de  $',monto,' libras esterlinas');
+end.
