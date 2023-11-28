@@ -1,0 +1,51 @@
+{
+Un comercio dispone de las ventas realizadas para sus productos. De cada venta se conoce
+Numero de producto(1..300), cantidad vendida y nombre del producto. Ademas el comercio cuenta
+con una tabla con el precio por unidad de cada uno de los 300 productos. Se pide calcular
+el nombre con el cual el comercio obtuvo la menor ganancia.
+}
+
+
+program untitled;
+const
+	dimF = 300;
+type
+	string30 = string[30];
+	rangoNumero = 1..300;
+	
+	producto = record
+		numero: rangoNumero;
+		ventas: integer;
+		nombre: string30;
+	end;
+
+	vecPrecios = array [1..dimF] of real;
+
+procedure leerProducto(var p: producto);
+begin
+	write('Ingrese el numero del producto: ');
+	readln(p.numero);
+	write('Ingrese el numero de ventas: ');
+	readln(p.ventas);
+	write('Ingrese el nombre del producto: ');
+	readln(p.nombre);
+end;
+
+procedure cargarVector(var v: vecPrecios);
+var
+	i: rangoNumero;
+	precio: real;
+begin
+	for i:= 1 to dimF do begin
+		write('Ingrese el precio del producto ',i,': ');
+		readln(precio);
+		v[i]:= precio;
+	end;
+end;
+
+procedure
+
+BEGIN
+	
+	
+END.
