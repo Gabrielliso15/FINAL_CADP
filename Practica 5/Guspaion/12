@@ -1,0 +1,156 @@
+{
+Se dispone de la información de los 32 equipos que participan en un torneo de fútbol. De cada equipo
+se tiene: código de equipo (1..32) y nombre del equipo.
+Realice un programa que:
+a) Lea y almacene los resultados de partidos del torneo (a lo sumo 64 partidos). De cada partido
+se lee: fecha de partido (dia, mes, año) , código de equipo 1 (1..32), código de equipo 2
+(1..32), cantidad goles equipo 1, cantidad goles equipo 2, cantidad de espectadores y monto
+recaudado. La lectura finaliza cuando se ingrese la cantidad de espectadores 0.
+Una vez leída y almacenada la información del inciso a) se pide calcular e informar:
+i. El nombre del equipo que más puntaje obtuvo (3 puntos equipo ganador, 0 punto
+equipo perdedor, 1 punto para cada equipo en caso de empate). Considere que
+habrá solo un ganador.
+ii. La recaudación total de los partidos jugados en el mes julio de 2014.
+Nota: la estructura generada en a) debe recorrerse una sola vez. 
+}
+
+
+program untitled;
+const
+	dimF = 64;
+type
+	rangoDia = 1..31;
+	rangoMes = 1..12;
+	rangoAnio = 2010..2030;
+	string30 = string[30];
+	rangoEquipos = 1..32;
+	rangoPartidos = 1..dimF;
+
+	equipo = record
+		codigo: integer;
+		nombre: string30;
+	end;
+
+	fecha = record
+		dia: rangoDia;
+		mes: rangoMes;
+		anio: rangoAnio;
+	end;
+
+	partido = record
+		fechaP: fecha;
+		codigoE1: rangoEquipos;
+		codigoE2: rangoEquipos;
+		cantGolesE1: integer;
+		cantGolesE2: integer;
+		cantEspectadores: integer;
+		monto: integer;
+	end;
+	
+	vecPartidos = array [rangoPartidos] of partido;
+	
+	vecPuntos = array [rangoEquipos] of integer;
+
+procedure leerPartido(var p: partido);
+begin
+	write('Ingrese el numero de espectadores(finaliza en 0): ');
+	readln(p.cantEspectadores);
+	if(p.cantEspectadores <> 0) then begin
+		write('Ingrese el anio del partido: ');
+		readln(p.fechaP.anio);
+		write('Ingrese el mes del partido: ');
+		readln(p.fechaP.mes);
+		write('Ingrese el dia del partido: ');
+		readln(p.fechaP.dia);
+		write('Ingrese el codigo del equipo 1 (1..32): ');
+		readln(p.codigoE1);
+		write('Ingrese el codigo del equipo 2 (1..32): ');
+		readln(p.codigoE2);
+		write('Ingrese la cantidad de goles del equipo 1: ');
+		readln(p.cantGolesE1);
+		write('Ingrese la cantidad de goles del equipo 2: ');
+		readln(p.cantGolesE2);
+		write('Ingrese el monto recaudado en $: ');
+		readln(p.monto);
+	end;
+end;
+
+procedure inicializarVector(var v: vecPuntos);
+var
+	i: rangoEquipos;
+begin
+	for i:= 1 to 32 do
+		v[i]:= 0;
+end;
+
+procedure cargarVectores(var v: vecPartidos; var vP: vecPuntos; var dimL: rangoPartidos);
+var
+	p: partido;
+begin
+	leerPartido(p);
+	while ((p.cantEspectadores <> 0) and (dimL < dimF)) do begin
+		v[dimL + 1]:= p;
+		dimL:= dimL + 1;
+		if(p.cantGolesE1 > p.cantGolesE2) then
+			vP[p.codigoE1]:= vP[p.codigoE1] + 3
+		else if (p.cantGolesE1 < p.cantGolesE2) then
+			vP[p.codigoE2]:= vP[p.codigoE2] + 3
+		else begin
+			vP[p.codigoE1]:= vP[p.codigoE1] + 1;
+			vP[p.codigoE2]:= vP[p.codigoE2] + 1;
+		end;
+		writeln(' -------------------- ');
+		leerPartido(p);
+	end;
+end;
+
+procedure calcularMaximo(var max: integer; var maxTeam: rangoEquipos; puntos: integer; team: rangoEquipos);
+begin
+	if(max < puntos) then begin
+		max:= puntos;
+		maxTeam:= team;
+	end;
+end;
+
+procedure recorrerVectorPartidos(v: vecPartidos; dimL: rangoPartidos; var recaudacion: integer);
+var
+	i: rangoPartidos;
+begin
+	for i:= 1 to dimL do begin
+		if((v[i].fechaP.anio = 2014) and (v[i].fechaP.mes = 7)) then
+			recaudacion:= recaudacion + v[i].monto;
+	end;
+end;
+
+procedure recorrerVectorPuntos(v: vecPuntos; var max: integer; var maxTeam: rangoEquipos);
+var
+	i: rangoEquipos;
+begin
+	for i:= 1 to 32 do
+		calcularMaximo(max, maxTeam, v[i], i);
+end;
+
+var
+	vecPart: vecPartidos;
+	vecPunt: vecPuntos;
+	dimL: rangoPartidos;
+	max, recaudacion: integer;
+	maxTeam: rangoEquipos;
+BEGIN
+	max:= -1;
+	dimL:= 0;
+	recaudacion:= 0;
+	inicializarVector(vecPunt);
+	cargarVectores(vecPart, vecPunt, dimL);
+	recorrerVectorPartidos(vecPart, dimL, recaudacion);
+	recorrerVectorPuntos(vecPunt, max, maxTeam);
+	writeln(' -------------------- ');
+	if(max <> -1) then
+		writeln('El equipo ',maxTeam,' salio campeon')
+	else
+		writeln('Liga sin partidos petinato');
+	writeln(' -------------------- ');
+	writeln('La recaudacion total en julio del 2014 es de $',recaudacion);
+	writeln(' -------------------- ');
+	writeln(' --- FIN DEL PROGRAMA --- ');
+END.
