@@ -1,0 +1,139 @@
+{
+Un periódico necesita procesar las noticias a publicar en el día. Para ello se debe realizar un programa
+que lea desde teclado las noticias correspondientes. De cada noticia se lee: título, texto, código de
+sección (1: Policiales; 2: Economía; 3: Espectáculos; 4: Deportes; 5: Política), nombre del autor y si es
+una noticia de carácter “Urgente”. La lectura finaliza cuando se lee el código de sección 0 (cero) y la
+información se ingresa ordenada por nombre del autor. Se pide calcular e informar:
+a. El nombre y apellido de los dos autores con mayor cantidad de noticias.
+b. Informar la cantidad de noticias para código de sección.
+Nota: para calcular e informar todos los incisos, el vector debe recorrerse una sola vez.
+}
+
+
+program untitled;
+const
+	dimF = 10;
+type
+	rango = 1..dimF;
+	rangoSeccion = 0..5;
+	string30 = string[30];
+	
+	noticia = record
+		titulo: string30;
+		texto: string;
+		codSeccion: rangoSeccion;
+		autor: string30;
+		caracter: boolean;
+	end;
+
+	vecNoticias = array [rango] of noticia;
+	
+	vecContador = array [1..5] of integer;
+
+procedure leerNoticia(var n: noticia);
+var
+	check: string30;
+begin
+	write('Ingrese la seccion de la noticia(finaliza en 0): ');
+	readln(n.codSeccion);
+	if(n.codSeccion <> 0) then begin
+		write('Ingrese el titulo de la noticia: ');
+		readln(n.titulo);
+		write('Ingrese el texto de la noticia: ');
+		readln(n.texto);
+		write('Ingrese el nombre del autor de la noticia: ');
+		readln(n.autor);
+		write('Es una noticia de caracter urgente? (Ingrese TRUE o FALSE): ');
+		readln(check);
+		if(check = 'TRUE') then
+			n.caracter:= true
+		else if (check = 'FALSE') then
+			n.caracter:= false;
+	end;
+end;
+
+procedure inicializarVectorContador(var v: vecContador);
+var
+	i: rangoSeccion;
+begin
+	for i:= 1 to 5 do
+		v[i]:= 0;
+end;
+
+procedure cargarVector(var v: vecNoticias; var dimL: integer);
+var
+	n: noticia;
+begin
+	leerNoticia(n);
+	while((n.codSeccion <> 0) and (dimL < dimF)) do begin
+		v[dimL+1]:= n;
+		dimL:= dimL + 1;
+		writeln(' ----------------- ');
+		leerNoticia(n);
+	end;
+end;
+
+procedure calcularMaximos(var max1, max2: integer; var autorMax1, autorMax2: string30; cantNoticias: integer; autor: string30);
+begin
+	if(cantNoticias > max1) then begin
+		max2:= max1;
+		autorMax2:= autorMax1;
+		max1:= cantNoticias;
+		autorMax1:= autor;
+	end
+	else if (cantNoticias > max2) then begin
+		max2:= cantNoticias;
+		autorMax2:= autor;
+	end;
+end;
+
+procedure recorrerVector (vN: vecNoticias; dimL: integer; var vC: vecContador; var max1, max2: integer; var autorMax1, autorMax2: string30);
+var
+	cantNoticias, i: integer;
+	autorActual: string30;
+begin
+	autorActual:= '.';
+	for i:= 1 to dimL do begin
+		if(autorActual = vN[i].autor) then begin
+			cantNoticias:= cantNoticias + 1;
+			vC[vN[i].codSeccion]:= vC[vN[i].codSeccion] + 1;
+		end
+		else begin
+			calcularMaximos(max1, max2, autorMax1, autorMax2, cantNoticias, autorActual);
+			autorActual:= vN[i].autor;
+			cantNoticias:= 1;
+			vC[vN[i].codSeccion]:= vC[vN[i].codSeccion] + 1;
+		end;
+	end;
+end;
+
+var
+	max1, max2, i, dimL: integer;
+	autorMax1, autorMax2: string30;
+	vecNot: vecNoticias;
+	vecCont: vecContador;
+BEGIN
+	dimL:= 0;
+	max1:= -1;
+	max2:= -1;
+	autorMax1:= 'nadie';
+	autorMax2:= 'nadie';
+	inicializarVectorContador(vecCont);
+	cargarVector(vecNot, dimL);
+	recorrerVector(vecNot, dimL, vecCont, max1, max2, autorMax1, autorMax2);
+	writeln(' ----------------- ');
+	if(max2 <> -1) then begin
+		writeln('El autor con mas noticias publicadas es ',autorMax1);
+		writeln('El segundo autor con mas noticias publicadas es ',autorMax2);
+	end
+	else if(max1 <> -1) then
+		writeln('El unico autor que laburo es ',autorMax1)
+	else
+		writeln('No hay noticias mascapito');
+	writeln(' ----------------- ');
+	for i:= 1 to 5 do begin
+		writeln('Seccion ',i,': ',vecCont[i]);
+		writeln(' ----------------- ');
+	end;
+	writeln(' --- FIN DEL PROGRAMA --- ');
+END.
