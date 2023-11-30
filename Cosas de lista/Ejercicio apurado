@@ -1,0 +1,95 @@
+{
+11. Se dispone de una estructura de datos con información de productos de un supermercado, de cada
+producto se conoce: código, nombre, descripción y precio. Se pide:
+a. Leer desde teclado un precio de producto y armar una nueva lista ordenada por precio con aquellos
+productos que posean un precio menor al precio recientemente leído. Para ello, debe eliminar el
+producto de la lista original (el que cumpla la condición respectiva) e insertarlo en la nueva lista.
+}
+
+
+program untitled;
+type
+	string30 = string[30];
+	
+	producto = record
+		codigo: integer;
+		nombre: string30;
+		descripcion: string30;
+		precio: real;
+	end;
+
+	nodo = record
+		dato: producto;
+		sig: lista;
+	end;
+	
+	lista = ^nodo;
+	
+procedure leerProducto(var p: producto);
+begin
+	write('Ingrese el nombre de un producto: ');
+	readln(p.nombre);
+	write('Ingrese el codigo de un producto: ');
+	readln(p.codigo);
+	write('Ingrese la descripcion de un producto: ');
+	readln(p.descripcion);
+	write('Ingrese el precio de un producto: ');
+	readln(p.precio);
+end;
+	
+procedure agregarAdelante(var L: lista; p: producto);
+var
+	nue: lista;
+begin
+	new(nue);
+	nue^.datos:= p;
+	nue^.sig:= L;
+	L:= nue;
+end;
+	
+procedure borrarElemento(var L: lista; precio: real)
+var
+	ant, act: lista;
+begin
+	act:= L;
+	while((act <> nil) and (act^.dato.precio <> precio)) do begin
+		ant:= act;
+		act:= act^.sig;
+	end;
+	if(act <> nil) then begin
+		if(act = L) then
+			L:= L^.sig
+		else
+			ant^.sig:= act^.sig;
+		dispose(act);
+	end;
+end;
+
+procedure armarLista(p: producto; var L: lista);
+begin
+	leerProducto(p);
+	agregarAdelante(L, p);
+	{Le faltan cosas pero no me da el tiempo y ademas se dispone}
+end;
+
+procedure borrarMenores (precio: real; var L1, L2: lista);
+begin
+	while (L1 <> nil) do begin
+		if(L1^.dato.precio < precio) then begin
+			borrarElemento(L1, precio);
+			agregarAdelante(L2, precio);
+		end;
+	end;
+end;
+
+var
+	listaCompleta, listaReducida: lista;
+	precio: real;
+BEGIN
+	listaCompleta:= nil;
+	listaReducida:= nil;
+	armarLista(listaCompleta);
+	write('Ingrese un precio para armar la otra lista: ');
+	readln(precio);
+	borrarMenores(precio, listaCompleta, listaReducida);
+END.
