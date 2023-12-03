@@ -1,0 +1,82 @@
+{Se dispone de la info de productos de un supermercado. De cada producto se tiene codigo, nombre,
+rubro (1..20) y precio. Se pide implementar un programa que guarde en una estructura adecuada los
+productos de los rubros que tengan 10 productos.}
+
+program xxx;
+type
+
+	RangoRubro = 1..20; 
+  
+  Vcontador = array [RangoRubro] of integer;
+  
+	producto = record
+  	Nombre : string;
+    Rubro : RangoRubro; 
+		Codigo : integer;  
+    Pecio : real;
+  end; 
+  
+  listaproductos= ^nodo;
+
+    nodo = record
+        dato: producto;
+        siguiente: listaproductos;
+    end; 
+  
+  procedure LeerProducto (var p: producto); {se dispone}
+  
+  procedure CargarListaProductos (var lp: listaproductos; p: producto); {se dispone}
+  
+  procedure IniciarVContador (var vc: Vcontador);
+  var
+  	i: integer;
+  begin
+  	for i:= 1 to 20 do begin
+    	vc[i]:= 0;
+    end;
+  end;
+  
+  procedure LlenarVectorContador (var vc:Vcontador; lp: listaproductos);  
+  begin
+  	while (l <> NIL) do begin
+    	vc[l^.dato.rubro] := vc[l^.dato.rubro] +1;
+      l:= l^.sig;
+    end;
+  end;
+  
+  Procedure AgregarAdelante (var L2:lista2; p:producto);
+  Var nue:Lista2;
+  Begin
+    New(nue);
+    nue^.datos:=p;
+    nue^.sig:=L;
+    L:=nue;
+  End;
+
+	procedure GenearLista2 (var L2: listaproductos; vc: Vcontador;lp: listaproductos);
+  var
+  	p: producto;
+  begin
+  	while (lp <> NIL) do begin
+    	p:= lp^.dato;
+    	if (vc[lp^.dato.rubro] = 10) then
+      	AgregarAdelante(l2,p);
+      end;
+      lp:= lp^.sig;
+    end;
+  end;
+
+var
+
+p: producto; {se dispone}
+lp: listaproductos; {se dispone}
+vc: Vcontador;
+L2: listaproductos;
+
+begin
+Leer(p);{se dispone}
+CargarListaProductos(lp,p);{se dispone}
+InicializarVContador(vc);
+LlenarVectorContado(vc,lp);
+GenerarLista2(l2,vc,lp);
+end.
