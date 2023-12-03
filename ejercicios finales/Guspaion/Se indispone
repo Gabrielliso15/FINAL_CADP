@@ -57,10 +57,14 @@ begin
 end;
 
 procedure armarListaNueva(var lNueva: lista; lOriginal: lista; v: vecContador);
+var
+	p:= producto;
 begin
 	while (lOriginal <> nil) do
-		if(v[lOriginal^.dato.rubro] = 10) then
-    	agregarAdelante(lNueva);
+		if(v[lOriginal^.dato.rubro] = 10) then begin
+    	p:= L^.dato;
+      agregarAdelante(lNueva, p);
+  	end;
   end;
 end;
 
