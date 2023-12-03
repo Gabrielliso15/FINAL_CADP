@@ -1,0 +1,75 @@
+1. Se dispone de la info de productos de un supermercado. De cada producto se tiene codigo, nombre,
+rubro (1..20) y precio. Se pide implementar un programa que guarde en una estructura adecuada los
+productos de los rubros que tengan 10 productos.
+
+
+program finiquitacionAbsoluta;
+const
+	dimF = 20;
+type
+	str30 = string[30];
+	rango = 1..dimF;
+	
+	producto = record
+		codigo: integer;
+    nombre: str30;
+		rubro: rango;
+    precio: real;
+  end;
+  
+  vecContador = array [rango] of integer;
+  
+  nodo = record
+  	data: producto;
+    sig: lista;
+  end;
+  
+  lista = ^nodo;
+	
+procedure leerProducto(var p: producto); {se dispone}
+  
+procedure agregarAdelante (var L: lista; p: producto);
+var
+	aux: lista;
+begin
+	new(aux);
+	aux:= p;
+  aux^.sig:= L;
+  L:= aux;
+end;
+
+procedure armarLista(var L: lista) {se dispone}
+
+procedure inicializarContador(var v: vecContador);
+var
+	i: rango;
+begin
+	for i:= 1 to 20 do
+  	v[i]:= 0;
+end;
+
+procedure contarRubros(var v: vecContador; L: lista);
+begin
+	while(L <> nil) do begin
+  	v[L^.dato.rubro]:= v[L^.dato.rubro] + 1;
+    L= L^.sig;
+  end;
+end;
+
+procedure armarListaNueva(var lNueva: lista; lOriginal: lista; v: vecContador);
+begin
+	while (lOriginal <> nil) do
+		if(v[lOriginal^.dato.rubro] = 10) then
+    	agregarAdelante(lNueva);
+  end;
+end;
+
+var
+	v: vecContador;
+  lOriginal, lNueva: lista;
+begin
+	armarLista(lOriginal) {se dispone}
+  inicializarContador(v);
+  contarRubros(v, lOriginal);
+  armarListaNueva(lNueva, lOriginal, v);
+end.
